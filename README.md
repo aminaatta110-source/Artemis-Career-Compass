@@ -1,8 +1,4 @@
-Here you go — a **clean, GitHub-friendly, fully formatted README.md** version of your text.
-You can **copy-paste this directly into GitHub** and edit in-place.
-It is written using standard Markdown, fully compatible with GitHub’s renderer, and optimized for readability.
 
----
 
 # 🧭 Artemis: AI-Powered Career Compass
 
