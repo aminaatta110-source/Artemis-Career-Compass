@@ -1,0 +1,7 @@
+# Ignore Python virtual environment folders
+venv/
+# Ignore API keys and sensitive data
+.env
+# Ignore compiled python files and cache
+__pycache__/
+.streamlit/
