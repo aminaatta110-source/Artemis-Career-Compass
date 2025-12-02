@@ -1,3 +1,7 @@
+
+### `README.md`
+
+````markdown
 # 🧭 Artemis: AI-Powered Career Compass
 
 Artemis is a sophisticated, multimodal Streamlit application designed to provide personalized, future-focused career guidance. It leverages the **Gemini 2.5 Flash** model with **Google Search grounding** and psychological profile analysis (**RIASEC**) to offer tailored career pathways, complete with salary ranges, growth insights, and immediate next steps.
@@ -52,3 +56,46 @@ Assuming your project files (`main.py`, `.env`, `requirements.txt`) are in the r
 ```bash
 # Install the necessary Python packages
 pip install -r requirements.txt
+````
+
+### Step 2: Set Up Environment Variables
+
+The `.env` file should be located directly alongside `main.py` and contain your API key:
+
+```env
+# .env file
+GEMINI_API_KEY="YOUR_API_KEY_HERE"
+```
+
+> **Note:** If running in a cloud environment (like Google Cloud Canvas), the API key is typically injected at runtime via secrets management, and the local `.env` file may be optional.
+
+### Step 3: Run the Application
+
+Execute the Streamlit app directly from your root project folder:
+
+```bash
+streamlit run main.py
+```
+
+The application will open in your web browser.
+
+-----
+
+## 📝 Usage
+
+The application follows a simple four-step wizard:
+
+1.  **Start Journey:** Click the main CTA button on the welcome page.
+2.  **Step 1 (Foundation):** Input your academic level and provide a detailed text background of your skills and interests.
+3.  **Step 2 (Context):** Select a primary **RIASEC Personality Code** and optionally upload an image file of your CV/resume for multimodal analysis.
+4.  **Step 3 (Generate):** Review your inputs and click **"START AI ANALYSIS"** to generate the three personalized career paths.
+5.  **Step 4 (Analysis):** View the three suggestions. Use the **"Refine Latest Suggestion"** input box to provide feedback and receive a single, highly targeted career path based on your new input.
+
+-----
+
+## 👤 Created By
+
+Amina Atta
+
+```
+```
