@@ -5,6 +5,7 @@
 ## 👤 Author & Repository Information
 
 **Name:** AMINA ATTA
+
 **GitHub Repository:** *[Artemis-Career-Compass](https://github.com/aminaatta110-source/Artemis-Career-Compass/tree/main)*
 
 ---
