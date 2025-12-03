@@ -2,151 +2,156 @@
 
 # 🧭 Artemis: AI-Powered Career Compass
 
-**Artemis** is a sophisticated, multimodal **Streamlit application** designed to provide personalized, future-focused career guidance. It leverages the **Gemini API with Google Search grounding**, psychological profiling (RIASEC), and refinement logic to deliver **three tailored career pathways**—each with salary insights, growth trends, and actionable next steps.
+## 👤 Author & Repository Information
+
+**Name:** AMINA ATTA
+**GitHub Repository:** *[Artemis-Career-Compass](https://github.com/aminaatta110-source/Artemis-Career-Compass/tree/main)*
 
 ---
 
-## ✨ Features
+## 🚀 Overview
 
-### 🔍 Multimodal Profiling
+Artemis is a Generative AI-powered Streamlit web app developed during the **GenAI Foundation Program**. It provides **personalized, future-ready career guidance** based on your skills, interests, education level, and personality traits — using **Google’s Gemini 2.5 Flash API (gemini-2.5-flash-preview-09-2025)**.
 
-Analyze user-provided **text background** (skills, interests, education) plus an **optional CV/resume image** for a deeper profile.
-
-### 🧠 RIASEC Personality Filtering
-
-Career options are aligned with the user’s selected **Holland Code**:
-Realistic • Investigative • Artistic • Social • Enterprising • Conventional.
-
-### 🎓 Academic Level Adjustment
-
-The system customizes recommendations based on whether the user is:
-
-* Entry-Level
-* Undergraduate
-* Graduate
-* Advanced Degree
-* Experienced Professional
-
-### 🌐 Real-Time Data Grounding
-
-Uses **Gemini API + Google Search** to provide **fresh salary ranges, descriptions, and job outlook**.
-
-### 🔄 Refinement Loop
-
-Users can refine the generated analysis (e.g., “exclude technical roles”) to produce a **single, deeply tailored** career pathway.
-
-### 🧭 Wizard-Style User Interface
-
-A clean, intuitive, step-by-step experience using **Streamlit session state**.
+Designed for **students**, **professionals**, and **career explorers**, Artemis blends multimodal inputs with search-grounded data to generate actionable career strategies.
 
 ---
 
-## ⚙️ Architecture
+## ✨ Key Features
 
-Artemis is built as a **single-file Streamlit project**, using external APIs for intelligence.
-
-| Component          | Technology / Service          | Purpose                                  |
-| ------------------ | ----------------------------- | ---------------------------------------- |
-| **Frontend/UI**    | Streamlit                     | Layout, navigation, wizard flow          |
-| **Core AI Logic**  | Gemini 2.5 Flash              | Career generation + multimodal reasoning |
-| **Data Grounding** | Gemini API with Google Search | Salary + job outlook                     |
-| **Styling**        | Custom CSS                    | Dynamic colors based on RIASEC trait     |
+* **AI-Powered Career Advice:** Tailored recommendations using RIASEC personality alignment and skill relevance.
+* **Bold Titles & Rich Descriptions:** Clear explanations of job roles, market demand, growth path, and required skills.
+* **Clickable Resource Links:** Search-grounded links for job outlook and salary validation.
+* **Session History:** Saves all career explorations for easy comparison and review.
+* **Secure API Key Handling:** `.env` for local — `secrets.toml` for deployment — no hardcoded secrets.
+* **Modern UI:** Responsive step-by-step wizard with dynamic color coding and clean layout.
 
 ---
 
-## 🚀 Installation & Setup
+## 🔧 How It Works
 
-### **Prerequisites**
-
-* Python **3.8+**
-* A **Gemini API Key**
-
----
-
-### **Step 1: Project Structure (Root Folder)**
-
-Your project should look like this:
-
-```
-Artemis-Career-Compass/
-│── main.py
-│── .env
-│── requirements.txt
-```
+| Step                       | Description                                                              |
+| -------------------------- | ------------------------------------------------------------------------ |
+| **1️⃣ Input**              | User provides skills, interests, education, and optional CV/resume image |
+| **2️⃣ Prompt Engineering** | App builds a structured multimodal prompt                                |
+| **3️⃣ Model Processing**   | Gemini analyzes data + performs grounded search                          |
+| **4️⃣ Output Generation**  | 3 best-fit careers with skills, fit level & next steps                   |
+| **5️⃣ Display & History**  | Clear interactive cards + saved session data                             |
+| **6️⃣ Refinement**         | Users can request improved/adjusted results                              |
 
 ---
 
-### **Step 2: Install Dependencies**
+## 📌 Use Cases
+
+✔ **Students** — plan future careers & study paths
+✔ **Professionals** — explore role transition or upskilling options
+✔ **Career Counselors** — use as a fast, data-assisted advising companion
+
+---
+
+## 🖥️ Setup Instructions
+
+### 1️⃣ Clone the Repository
 
 ```bash
-pip install streamlit python-dotenv requests
+git clone https://github.com/aminaatta110-source/Artemis-Career-Compass.git
+cd Artemis-Career-Compass
 ```
 
----
+### 2️⃣ Create a Virtual Environment
 
-### **Step 3: Environment Variables**
-
-In your **.env** file located in the root:
-
-```
-GEMINI_API_KEY="YOUR_API_KEY_HERE"
+```bash
+python -m venv .venv
 ```
 
-*(If deployed on systems like Google Cloud Canvas, the key may auto-inject.)*
+Activate it:
 
----
+**Windows:**
 
-### **Step 4: Run the Application**
+```bash
+.venv\Scripts\activate
+```
 
-Run this from the project root:
+**Mac/Linux:**
+
+```bash
+source .venv/bin/activate
+```
+
+### 3️⃣ Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+### 4️⃣ Add Gemini API Key
+
+Local (`.env` file):
+
+```
+GEMINI_API_KEY="your_gemini_key_here"
+```
+
+Streamlit Cloud:
+
+```
+# .streamlit/secrets.toml
+GEMINI_API_KEY = "your_gemini_key_here"
+```
+
+### 5️⃣ Run the App
 
 ```bash
 streamlit run main.py
 ```
 
-The app will automatically open in your web browser.
+Then open the localhost link in your browser 🌐
 
 ---
 
-## 📝 Usage Guide
+## 🛠️ Tech Stack
 
-### **1. Start Journey**
-
-Click the CTA button on the home screen.
-
-### **2. Step 1 (Foundation)**
-
-Provide:
-
-* Academic level
-* Detailed background (skills, interests, education)
-
-### **3. Step 2 (Context)**
-
-Select:
-
-* RIASEC personality code
-* Optional resume/CV image upload
-
-### **4. Step 3 (Generate)**
-
-Review inputs → click **START AI ANALYSIS**.
-
-### **5. Step 4 (Career Analysis)**
-
-Receive:
-
-* Three personalized career suggestions
-* Salary + growth data
-* Clear next-step actions
-* Option to **refine** results for a deeper-targeted suggestion
+| Component | Technology               |
+| --------- | ------------------------ |
+| Language  | Python 3.8+              |
+| Framework | Streamlit                |
+| AI Model  | Google Gemini 2.5 Flash  |
+| Grounding | Google Search Tool       |
+| Tools     | dotenv, requests, base64 |
 
 ---
 
-## 👤 Created By
+## 🔐 Security & Privacy
 
-**Amina Atta**
+* No personal data stored — only used transiently for generating results
+* API key is never exposed publicly
+* Suitable for education & internal use-cases
 
 ---
 
+## ⚠️ Deployment & API Notes
 
+* Gemini API has **usage limits**
+* High traffic may cause temporary downtime
+* If you fork the repo → **add your own API key**
+
+---
+
+## 📝 License
+
+This project is licensed under the **MIT License**.
+Use, modify, and expand freely!
+
+---
+
+## 🙌 Credits
+
+Artemis integrates with **Google Gemini (Generative Language API)**.
+Inspired by this open-source initiative:
+[https://github.com/jeevandeepsaini/Career-Guidance-ChatBot/tree/main](https://github.com/jeevandeepsaini/Career-Guidance-ChatBot/tree/main)
+
+---
+
+### 💡 Created with passion by **Amina Atta**
+
+---
