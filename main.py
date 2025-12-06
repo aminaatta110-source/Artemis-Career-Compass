@@ -73,15 +73,22 @@ def convert_markdown_to_html(markdown_content: str) -> str:
         content = "".join(processed_content)
 
 
-        # 3. Handle H3 headings (###)
+        # 3. Handle H3 headings (###) - MODIFIED TO GUARANTEE SALARY BRACKETS
         if content.startswith('### '):
-            # Convert the heading and use <span> to wrap the salary for styling flexibility
             heading_text = content[4:].strip()
             
             # Look for the last dash/bracket for the salary split
             if ' - ' in heading_text:
-                title, salary = heading_text.rsplit(' - ', 1)
-                new_lines.append(f'<h3>{title} <span class="salary-tag"> - {salary}</span></h3>')
+                title_raw, salary_raw = heading_text.rsplit(' - ', 1)
+                
+                # 1. Clean up Salary: Remove any accidental brackets or common prefixes
+                salary_text = salary_raw.strip('[] ')
+                salary_text = re.sub(r'^(Salary: |Salaries: |Salary:)\s*', '', salary_text, flags=re.IGNORECASE) 
+                
+                # 2. Construct the final HTML, guaranteeing the format [Salary: $Xk-$Yk]
+                guaranteed_salary_display = f'[Salary: {salary_text}]'
+                
+                new_lines.append(f'<h3>{title_raw} <span class="salary-tag"> - {guaranteed_salary_display}</span></h3>')
             else:
                 new_lines.append(f'<h3>{heading_text}</h3>')
         
@@ -206,7 +213,7 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
         End with: "{CONCLUSION_TEXT}"
         """
     else:
-        # Original system instruction for 3 careers
+        # Original system instruction for 3 careers, MODIFIED TO INCLUDE INTRO PARAGRAPH
         cv_instructions = ""
         if cv_uploaded:
             cv_instructions = """
@@ -243,7 +250,9 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
         - Focus on future-growth careers across all sectors
         - Consider both traditional and emerging career paths
 
-        **REQUIRED FORMAT ENFORCEMENT (Use Markdown Headings/Bullets):**
+        **REQUIRED START & FORMAT ENFORCEMENT (Use Markdown Headings/Bullets):**
+        
+        **REQUIRED START:** Start with a single, brief, conversational introductory paragraph (2-3 sentences maximum) that uses the user's background (interests/skills) and personality (`{st.session_state.personality_select}`) to set the context for the suggestions.
 
         You MUST provide exactly 3 career suggestions. Each suggestion MUST follow this structure precisely:
 
@@ -253,8 +262,6 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
         * **Personality Alignment:** Connection to {st.session_state.personality_select}
         * **Next Step:** One essential action to start
         * 🔗 [Search Job Growth](https://www.google.com/search?q=job+growth+[Job Title])
-
-        **IMPORTANT:** Start directly with the first career heading. Do NOT add any introductory paragraph before "### 1.".
 
         End with: "{CONCLUSION_TEXT}"
         """
@@ -294,25 +301,9 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
             if candidate and candidate.get("content", {}).get("parts"):
                 raw_text = candidate.get("content", {}).get("parts", [{}])[0].get("text", "")
 
-                
-                # Robust cleaning to remove ANY introductory text before the first heading
-                if not refine_mode:
-                    # Look for the first career heading pattern
-                    heading_patterns = ["### 1.", "### 1 "]
-                    for pattern in heading_patterns:
-                        heading_start = raw_text.find(pattern)
-                        if heading_start > 0:
-                            # Found introductory text, remove everything before the first career
-                            raw_text = raw_text[heading_start:]
-                            break
-                    # If no pattern found but there's a heading, find the first ###
-                    if raw_text.find("###") > 0 and raw_text.find("###") < 50: # Only if heading is near start
-                        first_heading = raw_text.find("###")
-                        if first_heading > 0:
-                            raw_text = raw_text[first_heading:]
-                        
-                # For refine mode: Find the first ### heading
-                elif refine_mode:
+                # Cleaning logic: ONLY strip the introductory text if we are in refine_mode, 
+                # as the refine instructions forbid an intro paragraph.
+                if refine_mode:
                     heading_start = raw_text.find("###")
                     if heading_start > 0:
                         raw_text = raw_text[heading_start:]
@@ -375,15 +366,12 @@ if "__last_step_for_scroll" not in st.session_state:
 # Control Wizard Steps
 def navigate_next(current_step):
     st.session_state.step = current_step + 1
-    # st.markdown("<script>window.scrollTo(0, 0);</script>", unsafe_allow_html=True) # REMOVED
     
 def navigate_prev(current_step):
     st.session_state.step = current_step - 1
-    # st.markdown("<script>window.scrollTo(0, 0);</script>", unsafe_allow_html=True) # REMOVED
     
 def start_journey():
     st.session_state.step = 1
-    # st.markdown("<script>window.scrollTo(0, 0);</script>", unsafe_allow_html=True) # REMOVED
     st.rerun()
 
 # --- Header & Step Tracker ---
@@ -456,9 +444,8 @@ if st.session_state.step > 0:
     
     # Use a solid color background for better visibility when a trait is selected
     if st.session_state.personality_select != "None":
-        # Using a slightly less transparent version of the dynamic color
-        # This should make the yellow (#E9CE7F) more noticeable.
-        dynamic_bg_style = f"background-color: {current_color}60 !important;" 
+        # INCREASED OPACITY from 60 to A0 (62.5%) for pale colors like Investigative yellow
+        dynamic_bg_style = f"background-color: {current_color}A0 !important;"    
         
     st.markdown(f"""
     <style>
@@ -485,9 +472,9 @@ if st.session_state.step > 0:
     
     /* FIX: Increase max-width for better content flow, especially for wide headings */
     .block-container {{
-        max-width: 1200px !important; 
-        padding-left: 1rem !important; 
-        padding-right: 1rem !important; 
+        max-width: 1200px !important;    
+        padding-left: 1rem !important;    
+        padding-right: 1rem !important;    
     }}
     
     .result-box {{
@@ -505,15 +492,15 @@ if st.session_state.step > 0:
         margin-top: 1.5rem !important;
         margin-bottom: 0.5rem !important;
         color: #1A4C88;
-        display: block; 
+        display: block;    
     }}
     
     /* Style for the salary tag within H3 */
     .salary-tag {{
-        display: inline-block; 
+        display: inline-block;    
         margin-left: 8px;
         font-weight: 500;
-        color: #2E8B57; 
+        color: #2E8B57;    
     }}
     
     /* FIX: Hanging Indent for List Items */
@@ -1048,7 +1035,7 @@ elif st.session_state.step == 3:
         # Progress bar replaced with st.spinner
         with st.spinner("🤖 Thinking... Analyzing data and generating pathways (using Google Search for grounding)..."):
             # The API call is now the only thing within the spinner context
-            result = get_career_guidance(enhanced_input, image_part) 
+            result = get_career_guidance(enhanced_input, image_part)    
 
         # Save result and show it in a styled result box
         st.session_state.history.insert(0, (enhanced_input, result, uploaded_file.name if uploaded_file else None))
@@ -1090,7 +1077,7 @@ elif st.session_state.step == 4:
             latest_result = latest_result.replace(CONCLUSION_TEXT, f"\n\n{CONCLUSION_TEXT}")
 
             # Check if the latest result was a refinement to adjust the main heading
-            is_refined = latest_query.startswith('[REFINED:') 
+            is_refined = latest_query.startswith('[REFINED:')    
 
             if is_refined:
                 st.markdown("### 🔄 Refined Career Path")
@@ -1143,7 +1130,7 @@ elif st.session_state.step == 4:
         st.markdown("### 🕰️ Analysis History")
         if len(st.session_state.history) > 0:
             # Calculation to number oldest as #1 (session_num=1) while keeping newest at the top (i=0)
-            total_analyses = len(st.session_state.history) 
+            total_analyses = len(st.session_state.history)    
             for i, (query, analysis, filename) in enumerate(st.session_state.history):
                 session_num = total_analyses - i # Calculates the session number (e.g., if total=3, i=0 => #3, i=2 => #1)
                 
