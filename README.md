@@ -49,6 +49,12 @@ Designed for **students**, **professionals**, and **career explorers**, Artemis 
 ✔ **Career Counselors** — use as a fast, data-assisted advising companion
 
 ---
+🖼 Screenshot
+
+<img width="584" height="580" alt="image" src="https://github.com/user-attachments/assets/938c4daf-fc73-439e-b610-5dfdaf32e52a" />
+
+
+---
 
 ## 🖥️ Setup Instructions
 
