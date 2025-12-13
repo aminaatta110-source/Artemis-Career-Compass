@@ -300,13 +300,6 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
             
             if candidate and candidate.get("content", {}).get("parts"):
                 raw_text = candidate.get("content", {}).get("parts", [{}])[0].get("text", "")
-
-                # Cleaning logic: ONLY strip the introductory text if we are in refine_mode, 
-                # as the refine instructions forbid an intro paragraph.
-                if refine_mode:
-                    heading_start = raw_text.find("###")
-                    if heading_start > 0:
-                        raw_text = raw_text[heading_start:]
                         
                 return raw_text
             else:
