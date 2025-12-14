@@ -352,9 +352,7 @@ if "step" not in st.session_state:
     st.session_state.step = 0
 if "refine_error_message" not in st.session_state:
     st.session_state.refine_error_message = ""
-# New state variable for scroll fix:
-if "__last_step_for_scroll" not in st.session_state:
-    st.session_state.__last_step_for_scroll = 0
+
 
 # Control Wizard Steps
 def navigate_next(current_step):
@@ -372,28 +370,6 @@ def start_journey():
 if st.session_state.step > 0:
     st.header("💡 **Artemis: Career Compass**")
 
-
-# ============================================================
-# GLOBAL SCROLL FIX (MODIFIED FOR RELIABILITY - V2)
-# ============================================================
-# This script is injected if the step has changed, forcing a reliable scroll to top.
-def scroll_to_top():
-    # Use a script that specifically targets the main scrollable content container in Streamlit
-    st.markdown("""
-        <script>
-            var scrollableElement = parent.document.querySelector('.main .block-container').parentElement.parentElement;
-            if (scrollableElement) {
-                scrollableElement.scrollTop = 0;
-            } else {
-                window.scrollTo(0, 0);
-            }
-        </script>
-    """, unsafe_allow_html=True)
-
-if st.session_state.step != st.session_state.__last_step_for_scroll:
-    scroll_to_top()
-    st.session_state.__last_step_for_scroll = st.session_state.step
-# ============================================================
 
 
 # DYNAMIC COLOR INJECTION CALCULATION
