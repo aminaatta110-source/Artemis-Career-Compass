@@ -199,6 +199,8 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
         You are a specialized career expert. Refine the previous career suggestion based on the new user input/feedback. 
 
         **CRITICAL:** Provide ONLY ONE updated career path. You MUST adhere to the following Markdown format precisely:
+        
+        *Start with a single, brief, conversational introductory paragraph (2-3 sentences max) acknowledging the user's feedback and setting context.*
 
         ### [Job Title] - [Salary: $Xk-$Yk]
         * **Level Fit:** Why this suits {st.session_state.academic_level}
@@ -208,8 +210,6 @@ def get_career_guidance(prompt_text: str, image_part: list = [], refine_mode: bo
         * **Next Step:** One essential action to start
         * 🔗 [Search Job Growth](https://www.google.com/search?q=job+growth+[Job Title])
 
-        **IMPORTANT:** Do NOT add any introductory paragraph or explanatory text before the career suggestion. Start directly with the ### heading.
-        
         End with: "{CONCLUSION_TEXT}"
         """
     else:
